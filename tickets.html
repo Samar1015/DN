@@ -1,0 +1,31 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>运维工单列表</title> 
+    <style> 
+        table { border-collapse: collapse; width: 100%; } 
+        th, td { border: 1px solid #ddd; padding: 8px; } 
+        th { background-color: #f2f2f2; } 
+    </style> 
+</head> 
+<body> 
+    <h1>已提交工单</h1> 
+    <table id="tickets"> 
+        <tr><th>时间</th><th>姓名</th><th>权限类型</th><th>详情</th></tr> 
+    </table> 
+    <script> 
+        fetch('http://localhost:8000/api/tickets') 
+            .then(res => res.json()) 
+            .then(data => { 
+                const table = document.getElementById('tickets'); 
+                data.forEach(item => { 
+                    const row = table.insertRow(-1); 
+                    row.innerHTML = `<td>${item.file.split('_')[1]}</td> 
+                                    <td>${item.content.user_name}</td> 
+                                    <td>${item.content.permission}</td> 
+                                    <td>${item.content.details || ''}</td>`; 
+                }); 
+            }); 
+    </script> 
+</body> 
+</html>
